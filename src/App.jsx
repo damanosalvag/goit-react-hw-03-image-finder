@@ -16,35 +16,52 @@ class App extends Component {
     super(props);
     this.state = {
       images: [],
+      query: "",
+      page: 1,
     };
   }
   async componentDidMount() {
-    const response = await axios.get(
-      `/?key=${
-        import.meta.env.VITE_API_KEY
-      }&q=yellow+flowers&image_type=photo&per_page=12`
-    );
-    this.setState({ images: response.data.hits }, () => {
-      console.log("Componente montado");
-    });
+    await this.handleGetAPI();
+  }
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.query === this.state.query &&
+      prevState.page === this.state.page
+    ) {
+      return;
+    } else {
+      await this.handleGetAPI();
+    }
   }
 
+  handleGetAPI = async () => {
+    const response = await axios.get(
+      `/?key=${import.meta.env.VITE_API_KEY}&q=${
+        this.state.query
+      }}&image_type=photo&per_page=12&page=${this.state.page}`
+    );
+    const dataPics = response.data.hits;
+    this.setState({ images: dataPics }, () => {
+      console.log("Estado Actualizado");
+    });
+  };
 
-  handleQuery = (qImagesList) => {
-    this.setState({ images: qImagesList });
+  handleChange = (name, value) => {
+    this.setState({ [name]: value });
   };
 
   render() {
     return (
       <>
         <SearchBar
-          handleQuerySet={this.handleQuery}
+          handleQuerySet={this.handleChange}
+          query={this.state.query}
         />
         <Modal />
         <ImageGallery>
           <ImageGalleryItem imagesList={this.state.images}></ImageGalleryItem>
-          <Button />
         </ImageGallery>
+        <Button handlePage={this.handleChange} value={this.state.page} />
         <Loader />
       </>
     );
