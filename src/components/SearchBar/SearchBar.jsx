@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import style from "./SearchBar.module.css";
-import axios from "axios";
 
 class SearchBar extends Component {
-
-
-  handleQuery = (e) => {
-    const { handleQuerySet } = this.props;
+  handleStateApp = (e) => {
+    const { handleStateSet } = this.props;
     const { name, value } = e.target;
-    handleQuerySet( [name], value );
+    handleStateSet([name], value);
+  };
+  handleSubmit = (evt) => {
+    evt.preventDefault();
+    this.props.handleStateSet("isActivate", true);
+    if (this.props.page !== 1) {
+      this.props.handleStateSet('page', 1);
+    } else {
+      this.props.handleGetAPI();
+    }
   };
   render() {
     return (
       <header className={style["searchBar"]}>
-        <form className={style["searchForm"]}>
+        <form className={style["searchForm"]} onSubmit={this.handleSubmit}>
           <button type="submit" className={style["button"]}>
             <span className={style["button-label"]}>Search</span>
           </button>
@@ -25,7 +31,7 @@ class SearchBar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            onChange={this.handleQuery}
+            onChange={this.handleStateApp}
             value={this.props.query}
           />
         </form>

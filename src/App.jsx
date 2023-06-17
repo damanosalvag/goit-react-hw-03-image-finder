@@ -18,19 +18,24 @@ class App extends Component {
       images: [],
       query: "",
       page: 1,
+      isActivate: false,
     };
   }
   async componentDidMount() {
     await this.handleGetAPI();
   }
   async componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.query === this.state.query &&
-      prevState.page === this.state.page
-    ) {
-      return;
-    } else {
-      await this.handleGetAPI();
+    if (this.state.isActivate) {
+      if (
+        prevState.query === this.state.query &&
+        prevState.page !== this.state.page
+      ) {
+        await this.handleGetAPI();
+      } else if (prevState.query !== this.state.query) {
+        this.setState({ page: 1 });
+      } else {
+        return;
+      }
     }
   }
 
@@ -41,9 +46,21 @@ class App extends Component {
       }}&image_type=photo&per_page=12&page=${this.state.page}`
     );
     const dataPics = response.data.hits;
-    this.setState({ images: dataPics }, () => {
-      console.log("Estado Actualizado");
-    });
+    if (this.state.page === 1) {
+      this.setState({ images: dataPics }, () => {
+        console.log("Estado Actualizado una vez");
+      });
+    } else {
+      this.setState(
+        (prevState) => ({
+          images: [...prevState.images, ...dataPics],
+        }),
+        () => {
+          console.log("Estado Actualizado mas de una vez");
+        }
+      );
+    }
+    this.setState({ isActivate: false });
   };
 
   handleChange = (name, value) => {
@@ -54,8 +71,10 @@ class App extends Component {
     return (
       <>
         <SearchBar
-          handleQuerySet={this.handleChange}
+          handleStateSet={this.handleChange}
+          handleGetAPI={this.handleGetAPI}
           query={this.state.query}
+          page={this.state.page}
         />
         <Modal />
         <ImageGallery>

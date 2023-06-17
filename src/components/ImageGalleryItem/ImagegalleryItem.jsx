@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import style from './ImageGalleryItem.module.css'
+import { nanoid } from "nanoid";
 
 class ImageGalleryItem extends Component {
   render() {
@@ -7,7 +8,7 @@ class ImageGalleryItem extends Component {
     return (
       <>
         {imagesList.map((image) => 
-          (<li key={image.id} className={style["gallery-item"]}>
+          (<li key={nanoid(10)} className={style["gallery-item"]}>
             <img src={image.webformatURL} alt={image.tags} className={style["gallery-item-image"]}/>
           </li>)
         )}

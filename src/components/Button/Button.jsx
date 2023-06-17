@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import style from "./Button.module.css";
 
 class Button extends Component {
-
   handleClickPage = () => {
     const { handlePage, value } = this.props;
     const newValue = value + 1;
-    const name = 'page';
-    handlePage(name, newValue)
-    console.log(newValue)
+    handlePage('page', newValue);
+    handlePage("isActivate", true);
+    console.log(newValue);
   };
 
   render() {
