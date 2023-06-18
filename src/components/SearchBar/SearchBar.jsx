@@ -9,9 +9,10 @@ class SearchBar extends Component {
   };
   handleSubmit = (evt) => {
     evt.preventDefault();
-    this.props.handleStateSet("isActivate", true);
+    this.props.handleStateSet("isActiveAction", true);
+    this.props.handleStateSet("loadActive", true);
     if (this.props.page !== 1) {
-      this.props.handleStateSet('page', 1);
+      this.props.handleStateSet("page", 1);
     } else {
       this.props.handleGetAPI();
     }

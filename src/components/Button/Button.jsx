@@ -3,23 +3,25 @@ import style from "./Button.module.css";
 
 class Button extends Component {
   handleClickPage = () => {
-    const { handlePage, value } = this.props;
+    const { handleStateButton, value } = this.props;
     const newValue = value + 1;
-    handlePage('page', newValue);
-    handlePage("isActivate", true);
+    handleStateButton("page", newValue);
+    handleStateButton("isActiveAction", true);
     console.log(newValue);
   };
 
   render() {
     return (
       <footer className={style["load-btn-container"]}>
-        <button
-          type="button"
-          className={style["load-btn"]}
-          onClick={this.handleClickPage}
-        >
-          Load more
-        </button>
+        {this.props.onShow ? (
+          <button
+            type="button"
+            className={style["load-btn"]}
+            onClick={this.handleClickPage}
+          >
+            Load more
+          </button>
+        ) : null}
       </footer>
     );
   }

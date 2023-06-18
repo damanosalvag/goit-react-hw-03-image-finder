@@ -18,16 +18,17 @@ class App extends Component {
       images: [],
       query: "",
       page: 1,
-      isActivate: false,
+      isActiveAction: false,
       showModal: false,
       urlModal: null,
+      loadActive: false,
     };
   }
   async componentDidMount() {
     await this.handleGetAPI();
   }
   async componentDidUpdate(prevProps, prevState) {
-    if (this.state.isActivate) {
+    if (this.state.isActiveAction) {
       if (
         prevState.query === this.state.query &&
         prevState.page !== this.state.page
@@ -62,7 +63,7 @@ class App extends Component {
         }
       );
     }
-    this.setState({ isActivate: false });
+    this.setState({ isActiveAction: false });
   };
 
   handleChange = (name, value) => {
@@ -86,12 +87,16 @@ class App extends Component {
         <ImageGallery>
           <ImageGalleryItem
             imagesList={this.state.images}
-            isRender={this.state.isActivate}
+            isRender={this.state.isActiveAction}
             handleStateImage={this.handleChange}
           ></ImageGalleryItem>
         </ImageGallery>
-        <Button handlePage={this.handleChange} value={this.state.page} />
-        <Loader isLoading={this.state.isActivate} />
+        <Button
+          handleStateButton={this.handleChange}
+          value={this.state.page}
+          onShow={this.state.loadActive}
+        />
+        <Loader isLoading={this.state.isActiveAction} />
       </div>
     );
   }

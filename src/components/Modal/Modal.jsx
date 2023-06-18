@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { motion } from "framer-motion";
 import style from "./Modal.module.css";
 
 class Modal extends Component {
@@ -7,18 +8,28 @@ class Modal extends Component {
     return (
       <>
         {onModal ? (
-          <div className={style["overlay"]}>
-            <img
-              width="48"
-              height="48"
-              src="https://img.icons8.com/fluency/48/cancel.png"
-              alt="cancel"
-              onClick={() => handleStateModal("showModal", false)}
-              className={style["close-btn"]}
-            />
-            <div className={style["modal"]}>
-              <img src={largeImageUrl} alt="" />
-            </div>
+          <div
+            className={style["overlay"]}
+            onClick={() => handleStateModal("showModal", false)}
+          >
+            <motion.div
+              className="box"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.7,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              <div className={style["modal"]}>
+                <img
+                  src={largeImageUrl}
+                  alt="large image"
+                  className={style["modal-content"]}
+                />
+              </div>
+            </motion.div>
           </div>
         ) : null}
       </>
