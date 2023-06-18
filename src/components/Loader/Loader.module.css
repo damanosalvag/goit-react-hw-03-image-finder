@@ -1,0 +1,11 @@
+
+
+.loader{
+    position: fixed;
+    top: 47%;
+    right: 47%;
+    z-index: 5;
+}
+.visible{
+    visibility: hidden;
+}

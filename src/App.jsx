@@ -19,6 +19,8 @@ class App extends Component {
       query: "",
       page: 1,
       isActivate: false,
+      showModal: false,
+      urlModal: null,
     };
   }
   async componentDidMount() {
@@ -69,20 +71,28 @@ class App extends Component {
 
   render() {
     return (
-      <>
+      <div className="main-container">
         <SearchBar
           handleStateSet={this.handleChange}
           handleGetAPI={this.handleGetAPI}
           query={this.state.query}
           page={this.state.page}
         />
-        <Modal />
+        <Modal
+          onModal={this.state.showModal}
+          largeImageUrl={this.state.urlModal}
+          handleStateModal={this.handleChange}
+        />
         <ImageGallery>
-          <ImageGalleryItem imagesList={this.state.images}></ImageGalleryItem>
+          <ImageGalleryItem
+            imagesList={this.state.images}
+            isRender={this.state.isActivate}
+            handleStateImage={this.handleChange}
+          ></ImageGalleryItem>
         </ImageGallery>
         <Button handlePage={this.handleChange} value={this.state.page} />
-        <Loader />
-      </>
+        <Loader isLoading={this.state.isActivate} />
+      </div>
     );
   }
 }
