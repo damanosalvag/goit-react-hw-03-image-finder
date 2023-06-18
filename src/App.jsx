@@ -89,6 +89,7 @@ class App extends Component {
             imagesList={this.state.images}
             isRender={this.state.isActiveAction}
             handleStateImage={this.handleChange}
+            page={this.state.page}
           ></ImageGalleryItem>
         </ImageGallery>
         <Button
