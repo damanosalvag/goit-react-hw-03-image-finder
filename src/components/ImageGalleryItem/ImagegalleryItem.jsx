@@ -15,8 +15,6 @@ class ImageGalleryItem extends Component {
           }),
         500
       );
-
-      console.log(toHeight);
     }
   }
   render() {
